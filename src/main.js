@@ -3,8 +3,10 @@ $(document).ready(function() {
     $("body").on({
         mousemove: function(e) {
             mouseMoveHandler(e);
-        },
-        
+        }
+        });
+
+    $("#cube").on({ 
         mouseover: function(e) {
             mouseOverHandler(e);
         },
@@ -12,7 +14,7 @@ $(document).ready(function() {
         mouseout: function(e) {
             mouseOutHandler(e);
         }
-        });
+    });
     
     var currentMousePos = {
       x: -1,
