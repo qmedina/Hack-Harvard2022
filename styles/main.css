@@ -1,14 +1,21 @@
-body{
-    margin:0;
-    padding:0;
-    overflow:hidden;
-    background-color:#77dd77;
-  }
-  div{
-    position:absolute;
-    transform:translate(-50%,-50%);
-    height:35px;
-    width:35px;
-    border-radius:50%;
-    border:2px solid black;
-  }
+body { overflow:hidden; position:absolute; height:100%; width:100%; background:#efefef; }
+
+#cube {
+  height:18px;
+  width:18px;
+  margin-top:-9px;
+  margin-left:-9px;
+  background:red;
+  position:absolute;
+  top:50%;
+  left:50%;   
+}
+.circleBase {
+    border-radius: 50%;
+}
+.roundCursor {
+    width: 20px;
+    height: 20px;
+    background: red;
+    border: 0px solid #000;
+}

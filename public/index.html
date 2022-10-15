@@ -10,9 +10,39 @@
   </head>
   <body>
     <main>
-        <h1>Tag! You're it!</h1> 
-        <button id="button" type="button">Click Me!</button> 
+        <h1>Tag! You're it!</h1>
+        <div id="container">
+          <div class="circleBase roundCursor" id="cube"></div>
+        </div>
     </main>
-	<script src="../src/main.ts"></script>
+	<script>
+    $(document).ready(function () {
+
+      $("body").mousemove(function (e) {
+        mouseMoveHandler(e);
+      });
+      var currentMousePos = { x: -1, y: -1 };
+      function mouseMoveHandler(event) {
+        currentMousePos.x = event.pageX;
+        currentMousePos.y = event.pageY;
+      }
+
+      mouseMover = setInterval(positionUpdate, 15);
+
+      function positionUpdate() {
+
+        var x_cursor = currentMousePos.x;
+        var y_cursor = currentMousePos.y;
+        var position = $("#cube").offset();
+        var x_box = position.left;
+        var y_box = position.top;
+
+        $("#cube").animate({
+          left: x_box+0.1*(x_curgitsor-x_box),
+          top: y_box+0.1*(y_cursor-y_box) 
+        }, 1, "linear"); 
+      }
+      });
+  </script>
   </body>
 </html>
