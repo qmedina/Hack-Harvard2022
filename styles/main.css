@@ -1,8 +1,8 @@
 body { overflow:hidden; position:absolute; height:100%; width:100%; background:#efefef; }
 
 #cube {
-  height:18px;
-  width:18px;
+  height:30px;
+  width:30px;
   margin-top:-9px;
   margin-left:-9px;
   background:red;
