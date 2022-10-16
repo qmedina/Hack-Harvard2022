@@ -72,9 +72,61 @@ $(document).ready(function() {
             var x_box = position.left;
             var y_box = position.top;
             var delayInMilliseconds = 100;
-            var chaseSpeed = 100;
+            var chaseSpeed = 0.07;
             var runSpeed = 0.07;
+            if ((x_cursor - x_box) > 0) {
+                if (Math.abs((x_cursor - x_box)) <= 0.25 * window.innerWidth) {
+                    var xMultiplier = 150;
+                }
+                else if (Math.abs((x_cursor - x_box)) <= 0.5 * window.innerWidth) {
+                    var xMultiplier = 100;
+                }
 
+                else if (Math.abs((x_cursor - x_box)) > 0.5 * window.innerWidth) {
+                    var xMultiplier = 50;
+                }
+
+            } 
+            else if ((x_cursor - x_box) <= 0) {
+                if (Math.abs((x_cursor - x_box)) <= 0.25 * window.innerWidth) {
+                    var xMultiplier = -150;
+                }
+                else if (Math.abs((x_cursor - x_box)) <= 0.5 * window.innerWidth) {
+                    var xMultiplier = -100;
+                }
+
+                else if (Math.abs((x_cursor - x_box)) > 0.5 * window.innerWidth) {
+                    var xMultiplier = -50;
+                }
+
+            }
+            if ((y_cursor - y_box) > 0) {
+                if (Math.abs((y_cursor - y_box)) <= 0.25 * window.innerHeight) {
+                    var yMultiplier = 100;
+                }
+                else if (Math.abs((y_cursor - y_box)) <= 0.5 * window.innerHeight) {
+                    var yMultiplier = 50;
+                }
+
+                else if (Math.abs((y_cursor - y_box)) > 0.5 * window.innerHeight) {
+                    var yMultiplier = 25;
+                }
+
+            } 
+            else if ((y_cursor - y_box) <= 0) {
+                if (Math.abs((y_cursor - y_box)) <= 0.25 * window.innerHeight) {
+                    var yMultiplier = -100;
+                }
+                else if (Math.abs((y_cursor - y_box)) <= 0.5 * window.innerHeight) {
+                    var yMultiplier = -50;
+                }
+
+                else if (Math.abs((y_cursor - y_box)) > 0.5 * window.innerHeight) {
+                    var yMultiplier = -25;
+                }
+
+            }
+             
         if (tagged == false) {
             $("#cube").animate({
                 left: x_box + runSpeed * (x_cursor - x_box),
@@ -83,8 +135,8 @@ $(document).ready(function() {
         } else {
             if (isInViewport(position)) {
                 $("#cube").animate({
-                    left: x_box - chaseSpeed / (x_cursor - x_box + 1),
-                    top: y_box - chaseSpeed / (y_cursor - y_box + 1)
+                    left: x_box - chaseSpeed * xMultiplier,
+                    top: y_box - chaseSpeed * yMultiplier
                 }, 1, "linear");
             }
             else if (position.left < leftTopConstraint && position.top < leftTopConstraint) { //top left
@@ -124,15 +176,23 @@ $(document).ready(function() {
                     inCorner = false;
                   }, delayInMilliseconds);
             } else if (position.top < leftTopConstraint || (window.innerHeight - position.top) <  RightBottomConstraint) { //top or bottom
+                inCorner = true;
                 $("#cube").animate({
-                    left: x_box - chaseSpeed / (x_cursor - x_box)
-                }, 1, "linear");
-
+                    left: x_box - chaseSpeed * xMultiplier * 10,
+                    top: y_box + chaseSpeed * yMultiplier * 20
+                }, delayInMilliseconds, "linear");
+                setTimeout(function() {
+                    inCorner = false;
+                  }, delayInMilliseconds);
             } else if (position.left < leftTopConstraint || (window.innerWidth - position.left) < RightBottomConstraint ) { //left or right
+                inCorner = true;
                 $("#cube").animate({
-                    top: y_box - chaseSpeed / (y_cursor - y_box + 1)
-                }, 1, "linear");
-                
+                    left: x_box + chaseSpeed * xMultiplier * 20,
+                    top: y_box - chaseSpeed * yMultiplier * 10
+                }, delayInMilliseconds, "linear");
+                setTimeout(function() {
+                    inCorner = false;
+                  }, delayInMilliseconds);
             } 
         } 
     }

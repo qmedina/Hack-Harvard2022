@@ -26,4 +26,5 @@ title{
   display: flex;
   flex-direction: row;
   align-items: center;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
