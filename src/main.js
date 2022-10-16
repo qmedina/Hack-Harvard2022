@@ -3,6 +3,14 @@ $(document).ready(function () {
     mousemove: function (e) {
       mouseMoveHandler(e);
     },
+    mouseleave: function (e) {
+        mouseLeaveHandler(e);
+    },
+
+    mouseenter: function (e) {
+        mouseEnterHandler(e);
+    },
+
   });
 
   $("#cube").on({
@@ -24,6 +32,7 @@ $(document).ready(function () {
   var inCorner = false;
   var leftTopConstraint = 60;
   var RightBottomConstraint = 100;
+  var mouseOnScreen = false;
 
   console.log(window.innerHeight);
   console.log(window.innerWidth);
@@ -56,10 +65,21 @@ $(document).ready(function () {
     tagged = !tagged;
   }
 
+  function mouseEnterHandler(event) {
+      mouseOnScreen = !mouseOnScreen;
+      console.log(mouseOnScreen);
+  }
+
+  function mouseLeaveHandler(event) {
+    mouseOnScreen = !mouseOnScreen;
+    console.log(mouseOnScreen);
+}
+
+
   setInterval(callPositionUpdate, 20);
 
   function callPositionUpdate() {
-    if (!inCorner) {
+    if (!(inCorner) && mouseOnScreen) {
       positionUpdate();
     }
   }
