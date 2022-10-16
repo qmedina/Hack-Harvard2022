@@ -22,6 +22,9 @@ $(document).ready(function() {
     };
 
     var tagged = false;
+    var inCorner = false;
+    var leftTopConstraint = 60;
+    var RightBottomConstraint = 100;
 
     console.log(window.innerHeight);
     console.log(window.innerWidth);
@@ -29,10 +32,10 @@ $(document).ready(function() {
     function isInViewport(element) {
         console.log("ran isInViewport");
         return (
-            element.top >= 40 &&
-            element.left >= 40 &&
-            window.innerHeight - element.top >=  60 &&
-            window.innerWidth - element.left >= 60 
+            element.top >= leftTopConstraint &&
+            element.left >= leftTopConstraint &&
+            window.innerHeight - element.top >=  RightBottomConstraint &&
+            window.innerWidth - element.left >= RightBottomConstraint 
         )
     }
 
@@ -53,38 +56,81 @@ $(document).ready(function() {
         tagged = !tagged;
     }
   
-    setInterval(positionUpdate, 20);
-  
+    
+    setInterval(callPositionUpdate, 20);
+
+    function callPositionUpdate() {
+        if (!inCorner) {
+            positionUpdate();
+        }
+    }
+    
     function positionUpdate() {
         var x_cursor = currentMousePos.x;
             var y_cursor = currentMousePos.y;
             var position = $("#cube").offset();
             var x_box = position.left;
             var y_box = position.top;
+            var delayInMilliseconds = 100;
+            var chaseSpeed = 100;
+            var runSpeed = 0.07;
 
         if (tagged == false) {
             $("#cube").animate({
-                left: x_box + 0.1 * (x_cursor - x_box),
-                top: y_box + 0.1 * (y_cursor - y_box)
+                left: x_box + runSpeed * (x_cursor - x_box),
+                top: y_box + runSpeed * (y_cursor - y_box)
             }, 1, "linear");
         } else {
             if (isInViewport(position)) {
-                console.log("isInViewport");
                 $("#cube").animate({
-                    left: x_box - 0.06 * (x_cursor - x_box),
-                    top: y_box - 0.06 * (y_cursor - y_box)
+                    left: x_box - chaseSpeed / (x_cursor - x_box + 1),
+                    top: y_box - chaseSpeed / (y_cursor - y_box + 1)
                 }, 1, "linear");
             }
-            else if ((position.top < 40 || (window.innerHeight - position.top) <  60) && (position.left < 40 || (window.innerWidth - position.left) < 60)) {
-                //bounce off corner
-            } else if (position.top < 40 || (window.innerHeight - position.top) <  60) {
+            else if (position.left < leftTopConstraint && position.top < leftTopConstraint) { //top left
+                inCorner = true;
                 $("#cube").animate({
-                    left: x_box - 0.06 * (x_cursor - x_box)
+                    left: window.innerWidth * 0.25,
+                    top: window.innerHeight * 0.25
+                }, delayInMilliseconds, "linear");
+                setTimeout(function() {
+                    inCorner = false;
+                  }, delayInMilliseconds);
+            } else if ((window.innerWidth - position.left) < RightBottomConstraint  && position.top < RightBottomConstraint) { //top right
+                inCorner = true;
+                $("#cube").animate({
+                    left: window.innerWidth * 0.75,
+                    top: window.innerHeight * 0.25
+                }, delayInMilliseconds, "linear");
+                setTimeout(function() {
+                    inCorner = false;
+                  }, delayInMilliseconds);
+            } else if (position.left < leftTopConstraint && (window.innerHeight - position.top) <  RightBottomConstraint) { //bottom left
+                inCorner = true;
+                $("#cube").animate({
+                    left: window.innerWidth * 0.25,
+                    top: window.innerHeight * 0.75
+                }, delayInMilliseconds, "linear");
+                setTimeout(function() {
+                    inCorner = false;
+                  }, delayInMilliseconds);
+            } else if ((window.innerWidth - position.left) < RightBottomConstraint && (window.innerHeight - position.top) <  RightBottomConstraint) { //bottom right
+                inCorner = true;
+                $("#cube").animate({
+                    left: window.innerWidth * 0.75,
+                    top: window.innerHeight * 0.75
+                }, delayInMilliseconds, "linear");
+                setTimeout(function() {
+                    inCorner = false;
+                  }, delayInMilliseconds);
+            } else if (position.top < leftTopConstraint || (window.innerHeight - position.top) <  RightBottomConstraint) { //top or bottom
+                $("#cube").animate({
+                    left: x_box - chaseSpeed / (x_cursor - x_box)
                 }, 1, "linear");
 
-            } else if (position.left < 40 || (window.innerWidth - position.left) < 60 ) {
+            } else if (position.left < leftTopConstraint || (window.innerWidth - position.left) < RightBottomConstraint ) { //left or right
                 $("#cube").animate({
-                    top: y_box - 0.06 * (y_cursor - y_box)
+                    top: y_box - chaseSpeed / (y_cursor - y_box + 1)
                 }, 1, "linear");
                 
             } 
