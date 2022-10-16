@@ -35,7 +35,7 @@ $(document).ready(function() {
             window.innerWidth - element.left >= 60 
         )
     }
-  
+
     function mouseMoveHandler(event) {
       currentMousePos.x = event.pageX;
       currentMousePos.y = event.pageY;
@@ -74,9 +74,19 @@ $(document).ready(function() {
                     left: x_box - 0.06 * (x_cursor - x_box),
                     top: y_box - 0.06 * (y_cursor - y_box)
                 }, 1, "linear");
-            } else {
-                console.log("isnooooootInViewport");
-                document.getElementById("body").style.background = "red";
+            }
+            else if ((position.top < 40 || (window.innerHeight - position.top) <  60) && (position.left < 40 || (window.innerWidth - position.left) < 60)) {
+                //bounce off corner
+            } else if (position.top < 40 || (window.innerHeight - position.top) <  60) {
+                $("#cube").animate({
+                    left: x_box - 0.06 * (x_cursor - x_box)
+                }, 1, "linear");
+
+            } else if (position.left < 40 || (window.innerWidth - position.left) < 60 ) {
+                $("#cube").animate({
+                    top: y_box - 0.06 * (y_cursor - y_box)
+                }, 1, "linear");
+                
             } 
         } 
     }
