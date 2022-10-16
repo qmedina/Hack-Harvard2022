@@ -29,10 +29,10 @@ $(document).ready(function() {
     function isInViewport(element) {
         console.log("ran isInViewport");
         return (
-            element.top >= 120 &&
-            element.left >= 120 &&
-            window.innerHeight - element.top >=  120 &&
-            window.innerWidth - element.left >= 120 
+            element.top >= 40 &&
+            element.left >= 40 &&
+            window.innerHeight - element.top >=  60 &&
+            window.innerWidth - element.left >= 60 
         )
     }
   
@@ -71,8 +71,8 @@ $(document).ready(function() {
             if (isInViewport(position)) {
                 console.log("isInViewport");
                 $("#cube").animate({
-                    left: x_box - 0.055 * (x_cursor - x_box),
-                    top: y_box - 0.055 * (y_cursor - y_box)
+                    left: x_box - 0.06 * (x_cursor - x_box),
+                    top: y_box - 0.06 * (y_cursor - y_box)
                 }, 1, "linear");
             } else {
                 console.log("isnooooootInViewport");
