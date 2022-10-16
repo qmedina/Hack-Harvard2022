@@ -92,7 +92,7 @@ $(document).ready(function () {
     var y_box = position.top;
     var delayInMilliseconds = 100;
     var chaseSpeed = 0.07;
-    var runSpeed = 0.07;
+    var runSpeed = 0.06;
     if (x_cursor - x_box > 0) {
       if (Math.abs(x_cursor - x_box) <= 0.25 * window.innerWidth) {
         var xMultiplier = 150;
